@@ -23,9 +23,9 @@ public class RetrofitPositionProvider implements PositionProvider {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().
-                connectTimeout(120, java.util.concurrent.TimeUnit.SECONDS).
-                readTimeout(120, java.util.concurrent.TimeUnit.SECONDS).
-                writeTimeout(120, java.util.concurrent.TimeUnit.SECONDS).
+                connectTimeout(12000, java.util.concurrent.TimeUnit.SECONDS).
+                readTimeout(12000, java.util.concurrent.TimeUnit.SECONDS).
+                writeTimeout(12000, java.util.concurrent.TimeUnit.SECONDS).
                 addInterceptor(interceptor).build();
 
         Gson gson = new GsonBuilder()
@@ -41,9 +41,9 @@ public class RetrofitPositionProvider implements PositionProvider {
 
 
     @Override
-    public void getPosition(String id, final PositionCallback callback) {
+    public void getPosition(Double lat, Double lon, final PositionCallback callback) {
         positionApi = retrofit.create(PositionApi.class);
-        Call<PositionData> call = positionApi.getPosition(id);
+        Call<PositionData> call = positionApi.getPosition(lat, lon);
         call.enqueue(new Callback<PositionData>() {
 
             @Override

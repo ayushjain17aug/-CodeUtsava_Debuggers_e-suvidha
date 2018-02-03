@@ -17,7 +17,7 @@ public class MockPositionProvider implements PositionProvider {
     private PositionData mockData;
 
     @Override
-    public void getPosition(String id, final PositionCallback callback) {
+    public void getPosition(Double lat, Double lon, final PositionCallback callback) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -29,8 +29,15 @@ public class MockPositionProvider implements PositionProvider {
     public PositionData getMockData() {
 
         List<PositionInfo> positionInfos = new ArrayList<>();
-        PositionInfo positionInfo = new PositionInfo(21.2558113, 81.6522232,"Swachh Bharat Toilet","https://www.amarujala.com/photo-gallery/india-news/varanasi-pm-modi-lays-foundation-for-toilet-under-swachh-bharat-abhiyan-in-shahanshahpur");
+        PositionInfo positionInfo = new PositionInfo(21.2558113, 81.6522232, "Swachh Bharat Toilet", "Raipur", "5.0", "4:00 a.m.", "1", "1");
         positionInfos.add(positionInfo);
+        positionInfo = new PositionInfo(20, 80, "Swachh Bharat Toilet", "Jabalpur", "5.0", "4:00 a.m.", "1", "0");
+        positionInfos.add(positionInfo);
+        positionInfo = new PositionInfo(22, 82, "Swachh Bharat Toilet", "Bhilai", "5.0", "4:00 a.m.", "0", "1");
+        positionInfos.add(positionInfo);
+        positionInfo = new PositionInfo(23, 79, "Swachh Bharat Toilet", "Durg", "5.0", "4:00 a.m.", "1", "0");
+        positionInfos.add(positionInfo);
+
         mockData = new PositionData(true, "success", positionInfos);
         return mockData;
     }

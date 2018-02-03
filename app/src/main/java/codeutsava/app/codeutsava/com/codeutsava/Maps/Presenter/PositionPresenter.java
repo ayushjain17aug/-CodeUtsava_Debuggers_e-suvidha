@@ -5,5 +5,5 @@ package codeutsava.app.codeutsava.com.codeutsava.Maps.Presenter;
  */
 
 public interface PositionPresenter {
-    void getPosition(String id);
+    void getPosition(Double lat, Double lon);
 }

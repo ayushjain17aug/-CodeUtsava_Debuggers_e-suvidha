@@ -4,4 +4,6 @@
     <string name="Connection_error">Poor Connection! Please try again</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_post_rating">PostRatingActivity</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_add_location">AddLocation</string>
 </resources>
