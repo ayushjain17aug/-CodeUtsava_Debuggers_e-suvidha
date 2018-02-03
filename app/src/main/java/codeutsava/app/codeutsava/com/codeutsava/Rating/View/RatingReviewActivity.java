@@ -1,14 +1,13 @@
 package codeutsava.app.codeutsava.com.codeutsava.Rating.View;
 
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 
@@ -23,9 +22,13 @@ import codeutsava.app.codeutsava.com.codeutsava.Rating.Model.Data.RatingsReviews
 import codeutsava.app.codeutsava.com.codeutsava.Rating.Model.RetrofitRatingProvider;
 import codeutsava.app.codeutsava.com.codeutsava.Rating.Presenter.RatingPresenter;
 import codeutsava.app.codeutsava.com.codeutsava.Rating.Presenter.RatingPresenterImpl;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class RatingReviewActivity extends AppCompatActivity implements RatingView {
 
+    private static final int REQUEST_GALLERY_CODE = 200;
+    private static final int READ_REQUEST_CODE = 300;
     ReviewsAdapter adapter;
     private ProgressBar progressBar;
     private SliderLayout mDemoSlider;
@@ -33,6 +36,11 @@ public class RatingReviewActivity extends AppCompatActivity implements RatingVie
     private RecyclerView recyclerView;
     private RatingPresenter presenter;
     private String lt = "", lng = "";
+    private Uri uri;
+    private MultipartBody.Part fileToUpload = null;
+    private RequestBody filename = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +50,8 @@ public class RatingReviewActivity extends AppCompatActivity implements RatingVie
             lt = extras.getString("latitude");
             lng = extras.getString("longitude");
         }*/
-        lt = "lat";
-        lng = "long";
+        lt = "21.248471";
+        lng = "81.579622";
 
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         overall = (RatingBar) findViewById(R.id.overall_score);
@@ -68,7 +76,6 @@ public class RatingReviewActivity extends AppCompatActivity implements RatingVie
         mDemoSlider.stopAutoCycle();
         super.onStop();
     }
-
 
     @Override
     public void showProgressBar(boolean b) {
@@ -115,42 +122,9 @@ public class RatingReviewActivity extends AppCompatActivity implements RatingVie
     }
 
     public void addRating(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Rate and Review");
-        final View view = getLayoutInflater().inflate(R.layout.rating_pop_up, null);
-        builder.setView(view);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                RatingBar Overall, Hygiene, Infra, Safety;
-                Overall = (RatingBar) view.findViewById(R.id.overall_score);
-                Hygiene = (RatingBar) view.findViewById(R.id.hygiene);
-                Infra = (RatingBar) view.findViewById(R.id.infra);
-                Safety = (RatingBar) view.findViewById(R.id.safety);
-
-                EditText review, feedback;
-                review = (EditText) view.findViewById(R.id.review);
-                feedback = (EditText) view.findViewById(R.id.feedback);
-                String revw = "", fdbk = "";
-                float overall, safety, infra, hygiene;
-                if (review.getText() != null)
-                    revw = review.getText().toString().trim();
-                if (feedback.getText() != null)
-                    fdbk = feedback.getText().toString().trim();
-
-                overall = Overall.getRating();
-                hygiene = Hygiene.getRating();
-                infra = Infra.getRating();
-                safety = Safety.getRating();
-                presenter.postRating(lt, lng, overall, hygiene, infra, safety, revw, fdbk);
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
+        Intent intent = new Intent(this, PostRatingActivity.class);
+        intent.putExtra("latitude", lt);
+        intent.putExtra("longitude", lng);
+        startActivity(intent);
     }
 }

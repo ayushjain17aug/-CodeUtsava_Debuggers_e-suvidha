@@ -7,10 +7,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-/**
- * Created by ayush on 03-02-2018.
- */
-
 public interface PositionApi {
     @FormUrlEncoded
     @POST(Urls.POST_LOCATION)

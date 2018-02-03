@@ -10,6 +10,8 @@ import codeutsava.app.codeutsava.com.codeutsava.Rating.Model.Data.RatingData;
 import codeutsava.app.codeutsava.com.codeutsava.Rating.Model.Data.RatingsReviews;
 import codeutsava.app.codeutsava.com.codeutsava.Rating.PostRatingCallback;
 import codeutsava.app.codeutsava.com.codeutsava.Rating.RatingCallback;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class MockRatingProvider implements RatingProvider {
 
@@ -29,7 +31,7 @@ public class MockRatingProvider implements RatingProvider {
 
     @Override
     public void postRating(String lt, String lng, float overall, float hygiene, float infra, float safety,
-                           String review, String feedback, final PostRatingCallback callback) {
+                           String review, String feedback, MultipartBody.Part file, RequestBody name, final PostRatingCallback callback) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
