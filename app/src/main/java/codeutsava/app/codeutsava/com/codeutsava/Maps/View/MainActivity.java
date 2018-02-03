@@ -178,7 +178,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             longitude = location.getLongitude();
             positionPresenter.getPosition(latitude, longitude);
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            MarkerOptions markerOptions = new MarkerOptions();
+            MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.dual_marker));
             markerOptions.position(latLng);
             markerOptions.title("Current Position");
 
