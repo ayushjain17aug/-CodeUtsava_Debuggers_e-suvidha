@@ -7,5 +7,5 @@ import codeutsava.app.codeutsava.com.codeutsava.Maps.PositionCallback;
  */
 
 public interface PositionProvider {
-    void getPosition(String id, PositionCallback callback);
+    void getPosition(Double lat, Double lon, PositionCallback callback);
 }

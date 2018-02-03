@@ -4,17 +4,17 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -31,36 +31,39 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import codeutsava.app.codeutsava.com.codeutsava.Maps.Model.Data.PositionInfo;
 import codeutsava.app.codeutsava.com.codeutsava.Maps.Model.MockPositionProvider;
 import codeutsava.app.codeutsava.com.codeutsava.Maps.Presenter.PositionPresenter;
 import codeutsava.app.codeutsava.com.codeutsava.Maps.Presenter.PositionPresenterImpl;
-import codeutsava.app.codeutsava.com.codeutsava.Maps.RetrofitMaps;
-import codeutsava.app.codeutsava.com.codeutsava.POJO.Example;
 import codeutsava.app.codeutsava.com.codeutsava.R;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
+import codeutsava.app.codeutsava.com.codeutsava.helper.LinearLayoutManagerWithSmoothScroller;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, PositionsView {
+        LocationListener, PositionsView, PositionAdapter.ClickListener {
 
-    private GoogleMap mMap;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    public PositionInfo position;
     double latitude;
     double longitude;
-    private ProgressBar progressBar;
-    private int PROXIMITY_RADIUS = 10000;
     GoogleApiClient mGoogleApiClient;
-    private boolean firstLoad = true;
+    ArrayList<Marker> allMarker;
     Location mLastLocation;
+    MarkerOptions markerOptions = new MarkerOptions();
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
+    PositionAdapter positionAdapter;
+    private GoogleMap mMap;
+    private ArrayList<PositionInfo> positionInfos = new ArrayList<>();
+    private ProgressBar progressBar;
+    private int PROXIMITY_RADIUS = 10000;
+    private boolean firstLoad = true;
+    private boolean secondload = false;
+    private RecyclerView recyclerView;
     private PositionPresenter positionPresenter;
 
     @Override
@@ -76,8 +79,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         if (!isGooglePlayServicesAvailable()) {
             Log.d("onCreate", "Google Play Services not available. Ending Test case.");
             finish();
-        }
-        else {
+        } else {
             Log.d("onCreate", "Google Play Services available. Continuing.");
         }
 
@@ -87,7 +89,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         positionPresenter = new PositionPresenterImpl(new MockPositionProvider(), this, this);
-        positionPresenter.getPosition("1");
+
+        allMarker = new ArrayList<>();
     }
 
     private boolean isGooglePlayServicesAvailable() {
@@ -116,6 +119,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
+
 
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -130,67 +135,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
         }
     }
-       /* Button btnToilet = (Button) findViewById(R.id.btn_toilet);
-        btnToilet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               build_retrofit_and_get_response("toilet");
-            }
-        });
-    }
-
-       private void build_retrofit_and_get_response(String type) {
-
-        String url = "https://maps.googleapis.com/maps/";
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RetrofitMaps service = retrofit.create(RetrofitMaps.class);
-
-        Call<Example> call = service.getNearbyPlaces(type, latitude + "," + longitude, PROXIMITY_RADIUS);
-
-        call.enqueue(new Callback<Example>() {
-            @Override
-            public void onResponse(Response<Example> response, Retrofit retrofit) {
-
-                try {
-                    mMap.clear();
-                    Log.d("ayush",response.body().getResults().toString());
-                    // This loop will go through all the results and add marker on each location.
-                    for (int i = 0; i < response.body().getResults().size(); i++) {
-                        Double lat = response.body().getResults().get(i).getGeometry().getLocation().getLat();
-                        Double lng = response.body().getResults().get(i).getGeometry().getLocation().getLng();
-                        String placeName = response.body().getResults().get(i).getName();
-                        String vicinity = response.body().getResults().get(i).getVicinity();
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        LatLng latLng = new LatLng(lat, lng);
-                        // Position of Marker on Map
-                        markerOptions.position(latLng);
-                        // Adding Title to the Marker
-                        markerOptions.title(placeName + " : " + vicinity);
-                        // Adding Marker to the Camera.
-                        Marker m = mMap.addMarker(markerOptions);
-                        // Adding colour to the marker
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                        // move map camera
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,16.0f));
-                            mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
-                    }
-                } catch (Exception e) {
-                    Log.d("onResponse", "There is an error");
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d("onFailure", t.toString());
-            }
-        });
-
-    }*/
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -212,6 +156,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
+
     }
 
     @Override
@@ -222,35 +167,34 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(Location location) {
 
-        Log.d("onLocationChanged", "entered");
+        Log.d("ayush", "entered");
+        if (firstLoad) {
+            mLastLocation = location;
+            if (mCurrLocationMarker != null) {
+                mCurrLocationMarker.remove();
+            }
+            //Place current location marker
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            positionPresenter.getPosition(latitude, longitude);
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title("Current Position");
 
-        mLastLocation = location;
-        if (mCurrLocationMarker != null) {
-            mCurrLocationMarker.remove();
-        }
-        //Place current location marker
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("Current Position");
+            // Adding colour to the marker
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
 
-        // Adding colour to the marker
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            // Adding Marker to the Map
+            mCurrLocationMarker = mMap.addMarker(markerOptions);
 
-        // Adding Marker to the Map
-        mCurrLocationMarker = mMap.addMarker(markerOptions);
-
-        //move map camera
-        if(firstLoad)
-        {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,12.0f));
+            //move map camera
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(12.0f));
         }firstLoad=false;
-        Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
+        Log.d("ayush", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
 
-        Log.d("onLocationChanged", "Exit");
+        Log.d("ayush", "Exit");
     }
 
     @Override
@@ -258,7 +202,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public boolean checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -309,10 +252,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             buildGoogleApiClient();
                         }
                         mMap.setMyLocationEnabled(true);
+
                     }
 
-                } else {
 
+                } else {
                     // Permission denied, Disable the functionality that depends on this permission.
                     Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
                 }
@@ -334,7 +278,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void showMessage(String message) {
-        Snackbar.make(findViewById(R.id.rating_relative_layout), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Snackbar.make(findViewById(R.id.recycler_view), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 
     @Override
@@ -345,8 +289,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             Double lat = data.get(i).getLatitude();
             Double lng = data.get(i).getLongitude();
             String name = data.get(i).getName();
-            String imgurl = data.get(i).getName();
-            MarkerOptions markerOptions = new MarkerOptions();
+            String address = data.get(i).getAddress();
+            String rating = data.get(i).getRating();
+            String hours = data.get(i).getHours();
+            String flagf = data.get(i).getFlagf();
+            String flagm = data.get(i).getFlagm();
+
+
             LatLng latLng = new LatLng(lat, lng);
             // Position of Marker on Map
             markerOptions.position(latLng);
@@ -354,12 +303,70 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             markerOptions.title(name);
             // Adding Marker to the Camera.
             Marker m = mMap.addMarker(markerOptions);
+            allMarker.add(m);
+
             // Adding colour to the marker
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             // move map camera
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,16.0f));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
+           /* mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f)); */
+            position = new PositionInfo(lat, lng, name, address, rating, hours, flagf, flagm);
+            positionInfos.add(position);
+        }
+        setupRecyclerView(1);
     }
-  }
-}
 
+    private void setupRecyclerView(int chosenTheme) {
+        // Initialize the recyclerview of location cards and a custom class for automatic card scrolling
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManagerWithSmoothScroller(this));
+        positionAdapter = new PositionAdapter(positionInfos,
+                getApplicationContext(), this, chosenTheme);
+        recyclerView.setAdapter(positionAdapter);
+        recyclerView.setOnFlingListener(null);
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        PositionInfo positionInfo = positionInfos.get(position);
+
+        // Retrieve and change the selected card's marker to the selected marker icon
+        Marker markerTiedToSelectedCard = allMarker.get(position);
+        adjustMarkerSelectStateIcons(markerTiedToSelectedCard);
+
+        // Reposition the map camera target to the selected marker
+        LatLng selectedLocationLatLng = new LatLng(positionInfo.getLatitude(), positionInfo.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedLocationLatLng, 12.0f));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(12.0f));
+
+    }
+
+    private void adjustMarkerSelectStateIcons(Marker marker) {
+        // Set all of the markers' icons to the unselected marker icon
+        /*for (Marker singleMarker : allMarker.getMarkers()) {
+            if (!singleMarker.getTitle().equals(getString(R.string.mock_location_title))) {
+                singleMarker.setIcon(customThemeManager.getUnselectedMarkerIcon());
+            }
+        }
+
+        // Change the selected marker's icon to a selected state marker except if the mock device location marker is selected
+        if (!marker.getIcon().equals(customThemeManager.getMockLocationIcon())) {
+            marker.setIcon(customThemeManager.getSelectedMarkerIcon());
+        }
+
+        // Get the directionsApiClient route to the selected marker except if the mock device location marker is selected
+        if (!marker.getIcon().equals(customThemeManager.getMockLocationIcon())) {
+            // Check for an internet connection before making the call to Mapbox Directions API
+            if (deviceHasInternetConnection()) {
+                // Start the call to the Mapbox Directions API
+                getInformationFromDirectionsApi(marker.getPosition().getLatitude(),
+                        marker.getPosition().getLongitude(), true, null);
+            } else {
+                Toast.makeText(this, R.string.no_internet_message, Toast.LENGTH_LONG).show();
+            }
+        }*/
+    }
+}

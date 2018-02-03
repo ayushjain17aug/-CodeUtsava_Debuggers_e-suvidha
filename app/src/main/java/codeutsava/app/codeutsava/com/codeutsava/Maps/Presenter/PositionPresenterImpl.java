@@ -21,9 +21,9 @@ public class PositionPresenterImpl  implements PositionPresenter {
     }
 
     @Override
-    public void getPosition(String id) {
+    public void getPosition(Double lat, Double lon) {
         view.showProgressBar(true);
-        provider.getPosition(id, new PositionCallback() {
+        provider.getPosition(lat, lon, new PositionCallback() {
             @Override
             public void onSuccess(PositionData body) {
                 view.showProgressBar(false);
