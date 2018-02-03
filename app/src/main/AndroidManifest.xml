@@ -14,9 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Maps.View.MainActivity" />
+        <activity android:name=".Rating.View.RatingReviewActivity" />
         <activity
-            android:name=".Rating.View.RatingReviewActivity"
-            android:label="@string/title_activity_rating_review"
+            android:name=".StartActivity"
+            android:label="E-Suvidha"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD0uPEDlDZkFrcUxEemKEhxbwGb4Mdazzo" />
         <activity
             android:name=".Rating.View.PostRatingActivity"
             android:label="@string/title_activity_post_rating"
