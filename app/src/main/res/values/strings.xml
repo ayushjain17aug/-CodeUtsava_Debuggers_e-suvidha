@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CodeUtsava</string>
+    <string name="title_activity_rating_review">RatingReviewActivity</string>
+    <string name="Connection_error">Poor Connection! Please try again</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_post_rating">PostRatingActivity</string>
+</resources>

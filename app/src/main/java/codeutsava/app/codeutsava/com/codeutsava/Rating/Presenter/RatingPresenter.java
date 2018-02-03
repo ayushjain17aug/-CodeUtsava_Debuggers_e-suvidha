@@ -1,0 +1,7 @@
+package codeutsava.app.codeutsava.com.codeutsava.Rating.Presenter;
+
+public interface RatingPresenter {
+    void getRating(String lt, String lng);
+
+    void postRating(String lt, String lng, float overall, float hygiene, float infra, float safety, String review, String feedback);
+}
