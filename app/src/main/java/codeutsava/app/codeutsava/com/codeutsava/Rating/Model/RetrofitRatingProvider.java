@@ -9,7 +9,9 @@ import codeutsava.app.codeutsava.com.codeutsava.Rating.Model.Data.RatingData;
 import codeutsava.app.codeutsava.com.codeutsava.Rating.PostRatingCallback;
 import codeutsava.app.codeutsava.com.codeutsava.Rating.RatingCallback;
 import codeutsava.app.codeutsava.com.codeutsava.helper.Urls;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,9 +67,9 @@ public class RetrofitRatingProvider implements RatingProvider {
 
     @Override
     public void postRating(String lt, String lng, float overall, float hygiene, float infra, float safety, String review,
-                           String feedback, final PostRatingCallback callback) {
+                           String feedback, MultipartBody.Part file, RequestBody name, final PostRatingCallback callback) {
         ratingApi = retrofit.create(RatingApi.class);
-        Call<PostRatingData> call = ratingApi.postRating(lt, lng, overall, hygiene, infra, safety, review, feedback);
+        Call<PostRatingData> call = ratingApi.postRating(lt, lng, overall, hygiene, infra, safety, review, feedback, file, name);
         call.enqueue(new Callback<PostRatingData>() {
             @Override
             public void onResponse(Call<PostRatingData> call, Response<PostRatingData> response) {

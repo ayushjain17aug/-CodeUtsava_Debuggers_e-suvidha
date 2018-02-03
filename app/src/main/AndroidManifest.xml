@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,9 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Maps.View.MainActivity">
-
-        </activity>
+        <activity android:name=".Maps.View.MainActivity" />
         <activity
             android:name=".Rating.View.RatingReviewActivity"
             android:label="@string/title_activity_rating_review"
@@ -25,6 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Rating.View.PostRatingActivity"
+            android:label="@string/title_activity_post_rating"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Rating.View.GraphActivity"
+            android:label="@string/title_activity_graph"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

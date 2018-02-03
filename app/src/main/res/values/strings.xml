@@ -3,5 +3,7 @@
     <string name="title_activity_rating_review">RatingReviewActivity</string>
     <string name="Connection_error">Poor Connection! Please try again</string>
     <string name="title_activity_maps">Map</string>
+    <string name="read_file">This app needs access to your file storage so that it can read photos.</string>
     <string name="title_activity_post_rating">PostRatingActivity</string>
+    <string name="title_activity_graph">GraphActivity</string>
 </resources>
