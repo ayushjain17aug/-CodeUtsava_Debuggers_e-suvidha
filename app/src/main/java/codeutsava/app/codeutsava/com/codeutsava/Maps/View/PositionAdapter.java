@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import codeutsava.app.codeutsava.com.codeutsava.Maps.Model.Data.PositionInfo;
@@ -30,11 +31,6 @@ public class PositionAdapter extends
     private Drawable emojiForCircle = null;
     private Drawable backgroundCircle = null;
     private int upperCardSectionColor = 0;
-
-    private int locationNameColor = 0;
-    private int locationAddressColor = 0;
-    private int locationHoursColor = 0;
-    private int locationHoursHeaderColor = 0;
 
     public PositionAdapter(List<PositionInfo> styles,
                            Context context, ClickListener cardClickListener, int selectedTheme) {
@@ -64,24 +60,26 @@ public class PositionAdapter extends
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RatingReviewActivity.class);
-                intent.putExtra("latitude", positionInfos.get(position).getLatitude());
-                intent.putExtra("latitude", positionInfos.get(position).getLongitude());
+                intent.putExtra("latitude", "" + positionInfos.get(position).getLatitude());
+                intent.putExtra("longitude", "" + positionInfos.get(position).getLongitude());
                 context.startActivity(intent);
             }
         });
         card.nameTextView.setText(positionInfo.getName());
         card.addressTextView.setText(positionInfo.getAddress());
-        card.rating.setText(positionInfo.getRating());
+        BigDecimal n = new BigDecimal(positionInfo.getRating());
+        n = n.setScale(2, BigDecimal.ROUND_CEILING);
+        card.rating.setText(n.toString());
         card.hoursTextView.setText(positionInfo.getHours());
 
-        if (Integer.parseInt(positionInfo.getFlagm()) == 1 && Integer.parseInt(positionInfo.getFlagf()) == 1) {
+        if (positionInfo.getFlagm().equals("1") && positionInfo.getFlagf().equals("1")) {
             emojiForCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.male_female, null);
             backgroundCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.white_circle, null);
             setColors(R.color.colorPrimary_gray, R.color.white, R.color.white, R.color.cardHourAndPhoneTextColor_gray,
                     R.color.cardHourAndPhoneTextColor_gray, R.color.cardHourAndPhoneTextColor_gray,
                     R.color.cardHourAndPhoneTextColor_gray, R.color.white, R.color.white);
             setAlphas(card, .41f, .48f, 100f, .48f);
-        } else if (Integer.parseInt(positionInfo.getFlagf()) == 1) {
+        } else if (positionInfo.getFlagf().equals("1")) {
             emojiForCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.female, null);
             backgroundCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.white_circle, null);
             setColors(R.color.colorPrimary_gray, R.color.white, R.color.white, R.color.cardHourAndPhoneTextColor_gray,
@@ -97,50 +95,6 @@ public class PositionAdapter extends
             setAlphas(card, .41f, .48f, 100f, .48f);
         }
 
-        /*switch (selectedTheme) {
-            case R.style.AppTheme_Blue:
-                emojiForCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.male_logo, null);
-                backgroundCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.blue_circle, null);
-                setColors(R.color.colorPrimary_blue, R.color.white, R.color.white, R.color.cardHourAndPhoneTextColor_blue,
-                        R.color.cardHourAndPhoneHeaderTextColor_blue, R.color.cardHourAndPhoneTextColor_blue,
-                        R.color.cardHourAndPhoneHeaderTextColor_blue, R.color.white, R.color.white);
-                setAlphas(card, .41f, .48f, 100f, .48f);
-                break;
-            case R.style.AppTheme_Purple:
-                emojiForCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.cheese_burger_icon, null);
-                backgroundCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.purple_circle, null);
-                setColors(R.color.colorPrimaryDark_purple, R.color.white, R.color.white, R.color.cardHourAndPhoneTextColor_purple,
-                        R.color.cardHourAndPhoneTextColor_purple, R.color.cardHourAndPhoneTextColor_purple,
-                        R.color.cardHourAndPhoneTextColor_purple, R.color.white, R.color.white);
-                setAlphas(card, .41f, .36f, .94f, .36f);
-                break;
-            case R.style.AppTheme_Green:
-                emojiForCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.money_bag_icon, null);
-                card.emojiImageView.setPadding(8, 0, 0, 0);
-                backgroundCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.green_circle, null);
-                setColors(R.color.colorPrimaryDark_green, R.color.white, R.color.white, R.color.cardHourAndPhoneTextColor_green,
-                        R.color.black, R.color.cardHourAndPhoneTextColor_green,
-                        R.color.black, R.color.white, R.color.white);
-                setAlphas(card, 100f, .48f, 100f, .48f);
-                break;
-            case R.style.AppTheme_Neutral:
-                emojiForCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.house_icon, null);
-                backgroundCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.white_circle, null);
-                setColors(R.color.colorPrimaryDark_neutral, R.color.black, R.color.black, R.color.black,
-                        R.color.black, R.color.black,
-                        R.color.black, R.color.black, R.color.black);
-                setAlphas(card, .37f, .37f, 100f, .37f);
-                break;
-            case R.style.AppTheme_Gray:
-                emojiForCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.bicycle_icon, null);
-                backgroundCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.gray_circle, null);
-                setColors(R.color.colorPrimaryDark_gray, R.color.white, R.color.white, R.color.cardHourAndPhoneTextColor_gray,
-                        R.color.cardHourAndPhoneTextColor_gray, R.color.cardHourAndPhoneTextColor_gray,
-                        R.color.cardHourAndPhoneTextColor_gray, R.color.white, R.color.white);
-                setAlphas(card, .41f, .48f, 100f, .41f);
-                break;
-        } */
-
         card.emojiImageView.setImageDrawable(emojiForCircle);
         card.constraintUpperColorSection.setBackgroundColor(upperCardSectionColor);
         card.backgroundCircleImageView.setImageDrawable(backgroundCircle);
@@ -150,10 +104,6 @@ public class PositionAdapter extends
                            int colorForHours, int colorForHoursHeader, int colorForPhoneNum,
                            int colorForPhoneHeader, int colorForDistanceNum, int colorForMilesAbbreviation) {
         upperCardSectionColor = ResourcesCompat.getColor(context.getResources(), colorForUpperCard, null);
-        locationNameColor = ResourcesCompat.getColor(context.getResources(), colorForName, null);
-        locationAddressColor = ResourcesCompat.getColor(context.getResources(), colorForAddress, null);
-        locationHoursColor = ResourcesCompat.getColor(context.getResources(), colorForHours, null);
-        locationHoursHeaderColor = ResourcesCompat.getColor(context.getResources(), colorForHoursHeader, null);
     }
 
     private void setAlphas(ViewHolder card, float addressAlpha, float hoursHeaderAlpha, float hoursNumAlpha,

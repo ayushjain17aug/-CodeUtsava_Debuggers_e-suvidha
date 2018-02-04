@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rating_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#b3d1f7"
     android:orientation="vertical"
     android:theme="@style/AppTheme"
     tools:context="codeutsava.app.codeutsava.com.codeutsava.Rating.View.RatingReviewActivity">
@@ -14,19 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/AppTheme.PopupOverlay" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="addRating"
-            android:text="Rate and Review" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -51,7 +40,10 @@
                 android:id="@+id/cardView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp">
+                android:layout_margin="5dp"
+                android:background="#cedff4"
+                android:backgroundTint="#e3edfa"
+                android:foregroundGravity="center_horizontal">
 
                 <LinearLayout
                     android:id="@+id/linear_layout"
@@ -159,20 +151,48 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <TextView
-                android:id="@+id/revw"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cardView1"
-                android:gravity="center"
-                android:text="Reviews"
-                android:textStyle="bold" />
+                android:layout_below="@id/cardView1"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/revw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cardView1"
+                    android:layout_marginRight="120dp"
+                    android:gravity="center"
+                    android:paddingLeft="25dp"
+                    android:text="Reviews"
+                    android:textColor="@color/black"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="5dp">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#5ebcff"
+                        android:onClick="addRating"
+                        android:padding="8dp"
+                        android:text="Rate and Review" />
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/revw"
+                android:layout_below="@+id/ll"
                 android:layout_margin="3dp" />
 
             <ProgressBar

@@ -1,13 +1,14 @@
 <resources>
-    <string name="app_name">CodeUtsava</string>
+    <string name="app_name">E-Suvidha</string>
     <string name="title_activity_rating_review">RatingReviewActivity</string>
     <string name="Connection_error">Poor Connection! Please try again</string>
     <string name="title_activity_maps">Map</string>
     <string name="read_file">This app needs access to your file storage so that it can read photos.</string>
     <string name="title_activity_post_rating">PostRatingActivity</string>
     <string name="title_activity_location">LocationActivity</string>
-    <string name="title_activity_graph">GraphActivity</string>
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_add_location">AddLocation</string>
     <string name="title_activity_graph_choice">GraphChoiceActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_checkin">CheckinActivity</string>
 </resources>
