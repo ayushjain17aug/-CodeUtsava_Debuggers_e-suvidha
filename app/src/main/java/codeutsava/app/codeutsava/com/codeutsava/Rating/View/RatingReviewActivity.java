@@ -45,13 +45,11 @@ public class RatingReviewActivity extends AppCompatActivity implements RatingVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_review);
-        /*Bundle extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
         if (extras != null) {
             lt = extras.getString("latitude");
             lng = extras.getString("longitude");
-        }*/
-        lt = "21.248471";
-        lng = "81.579622";
+        }
 
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         overall = (RatingBar) findViewById(R.id.overall_score);

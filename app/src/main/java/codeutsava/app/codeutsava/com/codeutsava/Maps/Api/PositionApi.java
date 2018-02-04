@@ -8,6 +8,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface PositionApi {
+
     @FormUrlEncoded
     @POST(Urls.POST_LOCATION)
     Call<PositionData> getPosition(@Field("latitude") Double lat, @Field("longitude") Double lon);
