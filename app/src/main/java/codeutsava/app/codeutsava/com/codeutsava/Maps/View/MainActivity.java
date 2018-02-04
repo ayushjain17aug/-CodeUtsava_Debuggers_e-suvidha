@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import codeutsava.app.codeutsava.com.codeutsava.Maps.Model.Data.PositionInfo;
-import codeutsava.app.codeutsava.com.codeutsava.Maps.Model.MockPositionProvider;
+import codeutsava.app.codeutsava.com.codeutsava.Maps.Model.RetrofitPositionProvider;
 import codeutsava.app.codeutsava.com.codeutsava.Maps.Presenter.PositionPresenter;
 import codeutsava.app.codeutsava.com.codeutsava.Maps.Presenter.PositionPresenterImpl;
 import codeutsava.app.codeutsava.com.codeutsava.R;
@@ -88,7 +88,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        positionPresenter = new PositionPresenterImpl(new MockPositionProvider(), this, this);
+        positionPresenter = new PositionPresenterImpl(new RetrofitPositionProvider(), this, this);
 
         allMarker = new ArrayList<>();
     }
@@ -167,7 +167,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(Location location) {
 
-        Log.d("ayush", "entered");
         if (firstLoad) {
             mLastLocation = location;
             if (mCurrLocationMarker != null) {
@@ -178,24 +177,22 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             longitude = location.getLongitude();
             positionPresenter.getPosition(latitude, longitude);
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.dual_marker));
+            MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.title("Current Position");
 
             // Adding colour to the marker
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+
 
             // Adding Marker to the Map
             mCurrLocationMarker = mMap.addMarker(markerOptions);
 
             //move map camera
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(12.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
         }firstLoad=false;
-        Log.d("ayush", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
-
-        Log.d("ayush", "Exit");
     }
+
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -297,16 +294,22 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             LatLng latLng = new LatLng(lat, lng);
-            // Position of Marker on Map
             markerOptions.position(latLng);
-            // Adding Title to the Marker
+
+            if (flagf.equals("1") && flagm.equals("1")) {
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.male_female));
+            } else if (flagf.equals("1")) {
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.female));
+            } else {
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.male_logo));
+            }
+
             markerOptions.title(name);
-            // Adding Marker to the Camera.
             Marker m = mMap.addMarker(markerOptions);
             allMarker.add(m);
 
             // Adding colour to the marker
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
             // move map camera
            /* mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f)); */
@@ -339,34 +342,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Reposition the map camera target to the selected marker
         LatLng selectedLocationLatLng = new LatLng(positionInfo.getLatitude(), positionInfo.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedLocationLatLng, 12.0f));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(12.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedLocationLatLng, 15.0f));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
 
     }
 
     private void adjustMarkerSelectStateIcons(Marker marker) {
-        // Set all of the markers' icons to the unselected marker icon
-        /*for (Marker singleMarker : allMarker.getMarkers()) {
-            if (!singleMarker.getTitle().equals(getString(R.string.mock_location_title))) {
-                singleMarker.setIcon(customThemeManager.getUnselectedMarkerIcon());
-            }
-        }
-
-        // Change the selected marker's icon to a selected state marker except if the mock device location marker is selected
-        if (!marker.getIcon().equals(customThemeManager.getMockLocationIcon())) {
-            marker.setIcon(customThemeManager.getSelectedMarkerIcon());
-        }
-
-        // Get the directionsApiClient route to the selected marker except if the mock device location marker is selected
-        if (!marker.getIcon().equals(customThemeManager.getMockLocationIcon())) {
-            // Check for an internet connection before making the call to Mapbox Directions API
-            if (deviceHasInternetConnection()) {
-                // Start the call to the Mapbox Directions API
-                getInformationFromDirectionsApi(marker.getPosition().getLatitude(),
-                        marker.getPosition().getLongitude(), true, null);
-            } else {
-                Toast.makeText(this, R.string.no_internet_message, Toast.LENGTH_LONG).show();
-            }
-        }*/
     }
 }

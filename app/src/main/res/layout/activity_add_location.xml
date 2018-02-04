@@ -42,7 +42,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="70dp"
+                    android:drawableLeft="@drawable/ic_star_black_24dp"
                     android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/ic_star_black_24dp"
                     android:hint="शौचालय का नाम"
                     android:inputType="text"
                     android:padding="10dp"
@@ -61,7 +63,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
+                    android:drawableLeft="@drawable/ic_star_black_24dp"
                     android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/ic_star_black_24dp"
                     android:hint="प्रभारी का नाम"
                     android:inputType="text"
                     android:padding="10dp"
@@ -80,7 +84,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
+                    android:drawableLeft="@drawable/ic_star_black_24dp"
                     android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/ic_star_black_24dp"
                     android:hint="पता"
                     android:inputType="text"
                     android:padding="10dp"
@@ -99,7 +105,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
+                    android:drawableLeft="@drawable/ic_star_black_24dp"
                     android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/ic_star_black_24dp"
                     android:hint="फ़ोन नंबर"
                     android:inputType="textEmailAddress"
                     android:padding="10dp"
@@ -122,8 +130,8 @@
                     android:hint="लैटिटूडे"
                     android:inputType="text"
                     android:padding="10dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white" />
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
