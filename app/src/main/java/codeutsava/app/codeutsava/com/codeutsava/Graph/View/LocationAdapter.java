@@ -41,7 +41,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
         final Location location = locations.get(position);
         holder.name.setText(location.getName());
         holder.address.setText(location.getAddress());
-        Picasso.with(context).load(location.getImage()).into(holder.image, new com.squareup.picasso.Callback() {
+        if(!location.getImage().isEmpty())
+        Picasso.with(context).load(location.getImage()).placeholder(R.drawable.img1).into(holder.image, new com.squareup.picasso.Callback() {
 
             @Override
             public void onSuccess() {

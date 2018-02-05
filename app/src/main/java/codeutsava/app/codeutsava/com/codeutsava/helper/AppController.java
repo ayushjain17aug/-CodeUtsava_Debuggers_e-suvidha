@@ -6,9 +6,7 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.crashlytics.android.Crashlytics;
 
-import io.fabric.sdk.android.Fabric;
 
 public class AppController extends Application {
 
@@ -23,10 +21,8 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
         mInstance = this;
     }
-
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext());

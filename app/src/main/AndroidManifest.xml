@@ -20,15 +20,11 @@
             android:name=".StartActivity"
             android:label="E-Suvidha"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
+            android:name="io.fabric.ApiKey"
             android:value="AIzaSyD0uPEDlDZkFrcUxEemKEhxbwGb4Mdazzo" />
 
 
@@ -36,6 +32,11 @@
             android:name=".Graph.View.LocationActivity"
             android:label="@string/title_activity_add_location"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Graph.View.GraphChoiceActivity"
@@ -53,6 +54,7 @@
         <activity
             android:name=".Graph.View.GraphActivity"
             android:label="@string/title_activity_graph"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
