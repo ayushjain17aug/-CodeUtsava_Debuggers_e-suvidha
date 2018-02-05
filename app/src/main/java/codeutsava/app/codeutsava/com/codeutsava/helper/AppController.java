@@ -7,7 +7,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-
 public class AppController extends Application {
 
     public static final String TAG = AppController.class.getSimpleName();
@@ -23,6 +22,7 @@ public class AppController extends Application {
         super.onCreate();
         mInstance = this;
     }
+
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext());

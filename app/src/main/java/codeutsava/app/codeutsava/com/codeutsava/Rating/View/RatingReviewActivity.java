@@ -61,8 +61,6 @@ public class RatingReviewActivity extends AppCompatActivity implements RatingVie
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-
-
         presenter = new RatingPresenterImpl(new RetrofitRatingProvider(), this, this);
         presenter.getRating(lt, lng);
 

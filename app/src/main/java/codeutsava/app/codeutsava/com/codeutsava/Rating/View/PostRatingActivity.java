@@ -186,6 +186,8 @@ public class PostRatingActivity extends AppCompatActivity implements EasyPermiss
     @Override
     public void showResult(PostRatingData data) {
         Intent intent = new Intent(this, RatingReviewActivity.class);
+        intent.putExtra("latitude", lt);
+        intent.putExtra("longitude", lng);
         startActivity(intent);
         finish();
     }
