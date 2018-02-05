@@ -23,9 +23,9 @@ public class RetrofitPositionProvider implements PositionProvider {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().
-                connectTimeout(12000, java.util.concurrent.TimeUnit.SECONDS).
-                readTimeout(12000, java.util.concurrent.TimeUnit.SECONDS).
-                writeTimeout(12000, java.util.concurrent.TimeUnit.SECONDS).
+                connectTimeout(15000, java.util.concurrent.TimeUnit.SECONDS).
+                readTimeout(15000, java.util.concurrent.TimeUnit.SECONDS).
+                writeTimeout(15000, java.util.concurrent.TimeUnit.SECONDS).
                 addInterceptor(interceptor).build();
 
         Gson gson = new GsonBuilder()
@@ -53,8 +53,8 @@ public class RetrofitPositionProvider implements PositionProvider {
 
             @Override
             public void onFailure(Call<PositionData> call, Throwable t) {
-                callback.onFailure();
                 t.printStackTrace();
+                callback.onFailure();
             }
         });
     }
