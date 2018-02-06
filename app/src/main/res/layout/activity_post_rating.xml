@@ -9,6 +9,18 @@
     android:orientation="vertical"
     tools:context="codeutsava.app.codeutsava.com.codeutsava.Rating.View.PostRatingActivity">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <ProgressBar
+            android:id="@+id/progress_bar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </FrameLayout>
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
@@ -200,6 +212,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="#00c8ff"
+            android:foreground="?attr/selectableItemBackground"
             android:padding="5dp"
             android:text="Upload Image" />
 
@@ -223,6 +236,7 @@
                 android:layout_margin="2dp"
                 android:layout_weight="0.5"
                 android:background="#00c8ff"
+                android:foreground="?attr/selectableItemBackground"
                 android:onClick="onSubmit"
                 android:padding="5dp"
                 android:text="Submit" />
@@ -235,6 +249,7 @@
                 android:layout_margin="2dp"
                 android:layout_weight="0.5"
                 android:background="#00c8ff"
+                android:foreground="?attr/selectableItemBackground"
                 android:onClick="onCancel"
                 android:padding="5dp"
                 android:text="Cancel" />
@@ -242,9 +257,4 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_bar1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
 </RelativeLayout>

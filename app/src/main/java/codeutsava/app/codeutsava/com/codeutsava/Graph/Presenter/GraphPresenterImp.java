@@ -10,10 +10,6 @@ import codeutsava.app.codeutsava.com.codeutsava.Graph.View.GraphView;
 import codeutsava.app.codeutsava.com.codeutsava.Graph.View.LocationView;
 import codeutsava.app.codeutsava.com.codeutsava.R;
 
-/**
- * Created by Abhi on 04-Feb-18.
- */
-
 public class GraphPresenterImp implements GraphPresenter {
 
     private LocationView view;
@@ -57,30 +53,36 @@ public class GraphPresenterImp implements GraphPresenter {
 
     @Override
     public void getUG(String id, String startDate, String endDate) {
+        view1.showProgressBar(true);
         provider.getUsageGraph(id, startDate, endDate, new GraphCallback() {
             @Override
             public void onSuccess(String url) {
+                view1.showProgressBar(false);
                 view1.getShowGraph(url);
             }
 
             @Override
             public void onFailure() {
-
+                view1.showProgressBar(false);
+                view1.showMessage(context.getString(R.string.Connection_error));
             }
         });
     }
 
     @Override
     public void getRRG(String id) {
+        view1.showProgressBar(true);
         provider.getReviewRatingGraph(id, new GraphCallback() {
             @Override
             public void onSuccess(String url) {
+                view1.showProgressBar(false);
                 view1.getShowGraph(url);
             }
 
             @Override
             public void onFailure() {
-
+                view1.showProgressBar(false);
+                view1.showMessage(context.getString(R.string.Connection_error));
             }
         });
     }

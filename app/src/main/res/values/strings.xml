@@ -5,7 +5,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="read_file">This app needs access to your file storage so that it can read photos.</string>
     <string name="title_activity_post_rating">PostRatingActivity</string>
-    <string name="title_activity_location">LocationActivity</string>
+    <string name="title_activity_location">Toilet Location</string>
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_add_location">AddLocation</string>
     <string name="title_activity_graph_choice">GraphChoiceActivity</string>
