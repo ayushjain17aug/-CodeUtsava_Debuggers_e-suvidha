@@ -4,6 +4,7 @@ package codeutsava.app.codeutsava.com.codeutsava.Graph.View;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
         final Location location = locations.get(position);
         holder.name.setText(location.getName());
         holder.address.setText(location.getAddress());
-        /*Picasso.with(context).load(location.getImage()).into(holder.image, new com.squareup.picasso.Callback() {
+        Log.d("abhi", location.getImage());
+        /*if(location.getImage()!=null)
+        Picasso.with(context).load(location.getImage()).into(holder.image, new com.squareup.picasso.Callback() {
 
             @Override
             public void onSuccess() {

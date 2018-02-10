@@ -12,8 +12,10 @@ import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import codeutsava.app.codeutsava.com.codeutsava.Graph.Model.RetrofitGraphProvider;
@@ -28,6 +30,8 @@ public class GraphChoiceActivity extends AppCompatActivity implements GraphView 
     private Button ug, rrg;
     private GraphPresenterImp presenter;
     private ProgressBar progressBar;
+    private Date strDate;
+    private Date enDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,13 +110,16 @@ public class GraphChoiceActivity extends AppCompatActivity implements GraphView 
             @Override
             public void onClick(View v) {
 
-                Log.d("abhi", startDate + "  " + endDate);
+
+                Log.d("abhi", strDate + "  " + enDate);
                 if (startDate == (null) && endDate == (null))
                     showMessage("Kindly select the 'to' and 'from' dates to display the graph");
                 else if (startDate == (null) && endDate != (null))
                     showMessage("Kindly select the 'from' date to display the graph");
                 else if (startDate != (null) && endDate == (null))
                     showMessage("Kindly select the 'to' date to display the graph");
+                else if (strDate.after(enDate))
+                    showMessage("The start date should be before end date");
                 else
                     presenter.getUG(id, startDate, endDate);
             }
@@ -125,6 +132,11 @@ public class GraphChoiceActivity extends AppCompatActivity implements GraphView 
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editText.setText(sdf.format(myCalendar.getTime()));
         startDate = sdf.format(myCalendar.getTime());
+        try {
+            strDate = sdf.parse(startDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateLabel1() {
@@ -132,6 +144,11 @@ public class GraphChoiceActivity extends AppCompatActivity implements GraphView 
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editText1.setText(sdf.format(myCalendar.getTime()));
         endDate = sdf.format(myCalendar.getTime());
+        try {
+            enDate = sdf.parse(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 

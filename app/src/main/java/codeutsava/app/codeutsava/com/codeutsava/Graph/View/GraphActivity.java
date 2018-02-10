@@ -10,7 +10,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import codeutsava.app.codeutsava.com.codeutsava.R;
 import codeutsava.app.codeutsava.com.codeutsava.helper.Urls;
@@ -18,7 +17,6 @@ import codeutsava.app.codeutsava.com.codeutsava.helper.Urls;
 public class GraphActivity extends AppCompatActivity {
 
     private WebView myWebView;
-    private TextView textView;
     private String url;
     private ProgressBar progressBar;
 
@@ -28,7 +26,6 @@ public class GraphActivity extends AppCompatActivity {
         setContentView(R.layout.activity_graph);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        textView = (TextView) findViewById(R.id.name);
         myWebView = (WebView) findViewById(R.id.webView);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         Bundle data = getIntent().getExtras();
@@ -37,6 +34,7 @@ public class GraphActivity extends AppCompatActivity {
         }
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        myWebView.loadUrl(Urls.Base_Url + url);
         Log.d("abhi", Urls.Base_Url + url);
 
         myWebView.setWebChromeClient(new WebChromeClient() {
@@ -53,12 +51,9 @@ public class GraphActivity extends AppCompatActivity {
         });
 
         myWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return false;
-            }
             public void onPageFinished(WebView view, String url) {
+
+
             }
         });
     }
