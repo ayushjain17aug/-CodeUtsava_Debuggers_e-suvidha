@@ -60,6 +60,7 @@ public class PositionAdapter extends
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RatingReviewActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("latitude", "" + positionInfos.get(position).getLatitude());
                 intent.putExtra("longitude", "" + positionInfos.get(position).getLongitude());
                 context.startActivity(intent);

@@ -27,7 +27,7 @@
                     android:layout_height="240dp"
                     android:layout_gravity="center_horizontal"
                     android:scaleType="fitXY"
-                    android:src="@drawable/img1" />
+                    android:src="@drawable/public_toilet" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"

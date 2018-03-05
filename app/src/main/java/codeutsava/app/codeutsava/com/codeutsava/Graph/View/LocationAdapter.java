@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import codeutsava.app.codeutsava.com.codeutsava.Graph.Model.Data.Location;
@@ -41,8 +39,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
         final Location location = locations.get(position);
         holder.name.setText(location.getName());
         holder.address.setText(location.getAddress());
-        if (!location.getImage().isEmpty())
-            Picasso.with(context).load(location.getImage()).into(holder.image, new com.squareup.picasso.Callback() {
+        Log.d("abhi", location.getImage());
+        /*if(location.getImage()!=null)
+        Picasso.with(context).load(location.getImage()).into(holder.image, new com.squareup.picasso.Callback() {
 
             @Override
             public void onSuccess() {
@@ -54,7 +53,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
                 Log.d("abhi", "Error in image loading");
                 holder.progressBar.setVisibility(View.GONE);
             }
-            });
+        });*/
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

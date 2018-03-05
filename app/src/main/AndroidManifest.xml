@@ -31,12 +31,13 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD0uPEDlDZkFrcUxEemKEhxbwGb4Mdazzo" />
+            android:value="AIzaSyAVfZp3uijr8_dbi8Uo_h2DnrjL4gMl6lY" />
 
         <activity
             android:name=".Graph.View.LocationActivity"
-            android:label="@string/title_activity_add_location"
+            android:label="@string/title_activity_location"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name=".Graph.View.GraphChoiceActivity"

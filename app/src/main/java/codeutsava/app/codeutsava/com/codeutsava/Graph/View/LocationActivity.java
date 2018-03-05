@@ -1,10 +1,13 @@
 package codeutsava.app.codeutsava.com.codeutsava.Graph.View;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -17,6 +20,7 @@ public class LocationActivity extends AppCompatActivity implements LocationView 
 
     RecyclerView recyclerView;
     private GraphPresenterImp presenter;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -25,6 +29,7 @@ public class LocationActivity extends AppCompatActivity implements LocationView 
         setContentView(R.layout.activity_location);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         recyclerView = (RecyclerView) findViewById(R.id.location_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         presenter = new GraphPresenterImp(this, new RetrofitGraphProvider(), this);
@@ -33,7 +38,10 @@ public class LocationActivity extends AppCompatActivity implements LocationView 
 
     @Override
     public void showProgressBar(boolean b) {
-
+        if (b)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -44,5 +52,6 @@ public class LocationActivity extends AppCompatActivity implements LocationView 
 
     @Override
     public void showMessage(String message) {
+        Snackbar.make(findViewById(R.id.rel_layout), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 }

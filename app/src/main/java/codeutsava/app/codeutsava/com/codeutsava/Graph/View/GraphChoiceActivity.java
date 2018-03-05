@@ -3,14 +3,19 @@ package codeutsava.app.codeutsava.com.codeutsava.Graph.View;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import codeutsava.app.codeutsava.com.codeutsava.Graph.Model.RetrofitGraphProvider;
@@ -24,6 +29,9 @@ public class GraphChoiceActivity extends AppCompatActivity implements GraphView 
     private String startDate, endDate, id;
     private Button ug, rrg;
     private GraphPresenterImp presenter;
+    private ProgressBar progressBar;
+    private Date strDate;
+    private Date enDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,7 @@ public class GraphChoiceActivity extends AppCompatActivity implements GraphView 
         setContentView(R.layout.activity_graph_choice);
         editText = (TextView) findViewById(R.id.date1);
         editText1 = (TextView) findViewById(R.id.date2);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         ug = (Button) findViewById(R.id.usageGraph);
         rrg = (Button) findViewById(R.id.reviewRating);
@@ -100,7 +109,19 @@ public class GraphChoiceActivity extends AppCompatActivity implements GraphView 
         ug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.getUG(id, startDate, endDate);
+
+
+                Log.d("abhi", strDate + "  " + enDate);
+                if (startDate == (null) && endDate == (null))
+                    showMessage("Kindly select the 'to' and 'from' dates to display the graph");
+                else if (startDate == (null) && endDate != (null))
+                    showMessage("Kindly select the 'from' date to display the graph");
+                else if (startDate != (null) && endDate == (null))
+                    showMessage("Kindly select the 'to' date to display the graph");
+                else if (strDate.after(enDate))
+                    showMessage("The start date should be before end date");
+                else
+                    presenter.getUG(id, startDate, endDate);
             }
         });
 
@@ -111,7 +132,11 @@ public class GraphChoiceActivity extends AppCompatActivity implements GraphView 
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editText.setText(sdf.format(myCalendar.getTime()));
         startDate = sdf.format(myCalendar.getTime());
-
+        try {
+            strDate = sdf.parse(startDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateLabel1() {
@@ -119,6 +144,11 @@ public class GraphChoiceActivity extends AppCompatActivity implements GraphView 
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editText1.setText(sdf.format(myCalendar.getTime()));
         endDate = sdf.format(myCalendar.getTime());
+        try {
+            enDate = sdf.parse(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -127,5 +157,19 @@ public class GraphChoiceActivity extends AppCompatActivity implements GraphView 
         Intent intent = new Intent(this, GraphActivity.class);
         intent.putExtra("url", url);
         startActivity(intent);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Snackbar.make(findViewById(R.id.rel_layout), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+    }
+
+    @Override
+    public void showProgressBar(boolean b) {
+        if (b)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.GONE);
     }
 }
