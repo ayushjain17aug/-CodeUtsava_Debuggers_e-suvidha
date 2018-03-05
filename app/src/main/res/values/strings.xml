@@ -7,7 +7,7 @@
     <string name="title_activity_post_rating">PostRatingActivity</string>
     <string name="title_activity_location">LocationActivity</string>
     <string name="title_activity_start">StartActivity</string>
-    <string name="title_activity_add_location">AddLocation</string>
+    <string name="title_activity_add_location">Toilets Location</string>
     <string name="title_activity_graph_choice">GraphChoiceActivity</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_checkin">CheckinActivity</string>

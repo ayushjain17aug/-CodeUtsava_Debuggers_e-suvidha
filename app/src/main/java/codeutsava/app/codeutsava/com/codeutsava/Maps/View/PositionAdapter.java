@@ -72,7 +72,14 @@ public class PositionAdapter extends
         card.rating.setText(n.toString());
         card.hoursTextView.setText(positionInfo.getHours());
 
-        if (positionInfo.getFlagm().equals("1") && positionInfo.getFlagf().equals("1")) {
+        if (positionInfo.getFlagd().equals("1")) {
+            emojiForCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.disable, null);
+            backgroundCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.white_circle, null);
+            setColors(R.color.colorPrimary_gray, R.color.white, R.color.white, R.color.cardHourAndPhoneTextColor_gray,
+                    R.color.cardHourAndPhoneTextColor_gray, R.color.cardHourAndPhoneTextColor_gray,
+                    R.color.cardHourAndPhoneTextColor_gray, R.color.white, R.color.white);
+            setAlphas(card, .41f, .48f, 100f, .48f);
+        } else if (positionInfo.getFlagm().equals("1") && positionInfo.getFlagf().equals("1")) {
             emojiForCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.male_female, null);
             backgroundCircle = ResourcesCompat.getDrawable(context.getResources(), R.drawable.white_circle, null);
             setColors(R.color.colorPrimary_gray, R.color.white, R.color.white, R.color.cardHourAndPhoneTextColor_gray,

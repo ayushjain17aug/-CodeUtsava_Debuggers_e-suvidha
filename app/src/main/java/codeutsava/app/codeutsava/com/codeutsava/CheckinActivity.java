@@ -77,10 +77,14 @@ public class CheckinActivity extends AppCompatActivity {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
         List<String> list1 = new ArrayList<String>();
         list1.add("Toilet 1");
-        list1.add("1Toilet 2");
+        list1.add("Toilet 2");
         list1.add("Toilet 2");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(dataAdapter);
+        dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list1);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(dataAdapter);
     }

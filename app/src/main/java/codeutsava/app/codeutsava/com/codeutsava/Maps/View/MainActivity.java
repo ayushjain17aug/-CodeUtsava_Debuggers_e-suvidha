@@ -291,12 +291,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             String hours = data.get(i).getHours();
             String flagf = data.get(i).getFlagf();
             String flagm = data.get(i).getFlagm();
+            String flagd = data.get(i).getFlagd();
 
 
             LatLng latLng = new LatLng(lat, lng);
             markerOptions.position(latLng);
 
-            if (flagf.equals("1") && flagm.equals("1")) {
+            if (flagd.equals("1")) {
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.disable));
+            } else if (flagf.equals("1") && flagm.equals("1")) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.male_female));
             } else if (flagf.equals("1")) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.female));
@@ -313,7 +316,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             // move map camera
            /* mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f)); */
-            position = new PositionInfo(lat, lng, name, address, rating, hours, flagf, flagm);
+            position = new PositionInfo(lat, lng, name, address, rating, hours, flagf, flagm, flagd);
             positionInfos.add(position);
         }
         setupRecyclerView(1);

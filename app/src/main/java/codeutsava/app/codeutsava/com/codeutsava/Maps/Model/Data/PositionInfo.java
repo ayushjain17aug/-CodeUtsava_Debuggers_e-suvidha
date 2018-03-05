@@ -2,9 +2,9 @@ package codeutsava.app.codeutsava.com.codeutsava.Maps.Model.Data;
 
 public class PositionInfo {
     private double latitude, longitude;
-    private String name, address, overall, hours, m, f;
+    private String name, address, overall, hours, m, f, d;
 
-    public PositionInfo(double latitude, double longitude, String name, String address, String rating, String hours, String f, String m) {
+    public PositionInfo(double latitude, double longitude, String name, String address, String rating, String hours, String f, String m, String d) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
@@ -12,6 +12,7 @@ public class PositionInfo {
         this.f = f;
         this.m = m;
         this.overall = rating;
+        this.d = d;
         this.hours = hours;
     }
 
@@ -45,6 +46,14 @@ public class PositionInfo {
 
     public void setFlagm(String flagm) {
         this.m = flagm;
+    }
+
+    public String getFlagd() {
+        return d;
+    }
+
+    public void setFlagd(String flagd) {
+        this.d = flagd;
     }
 
     public String getFlagf() {
